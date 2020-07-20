@@ -364,9 +364,10 @@ this.aa = function (PromiseThunk) {
 		function error(err) { try { channel.send(err); } catch (e) {} }
 
 		function readable() {
-			var buf = this.read();
-			if (!buf) return;
-			try { channel.send(buf); } catch (e) {}
+			var buf;
+			while (buf = this.read()) {
+				try { channel.send(buf); } catch (e) {}
+			}
 		} // readable
 	} // stream
 
